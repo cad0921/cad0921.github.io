@@ -1,17 +1,82 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>測試中</title>
-    </head>
-    <body style="background-color: aquamarine;">
-        <div style="text-align: center; margin-top: 5%;">
-            <button name="ADD" style="width: 30%; height: 50px; background-color: bisque; font-family: DFKai-sb; font-size: 20px;">新增</button>
-            <button name="Search" style="width: 30%; height: 50px; background-color: bisque; font-family: DFKai-sb; font-size: 20px;">查詢</button>       
+<head>
+    <meta charset="UTF-8">
+    <title>測試中</title>
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: antiquewhite;
+            padding: 20px;
+            border: 2px solid #000000;
+        }
+
+        .form-input {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body style="background-color: aquamarine;">
+    <div style="text-align: center; margin-top: 5%;">
+        <button name="ADD" style="width: 30%; height: 50px; background-color: bisque; font-family: DFKai-sb; font-size: 20px;" onclick="openAddForm()">新增</button>
+        <button name="Search" style="width: 30%; height: 50px; background-color: bisque; font-family: DFKai-sb; font-size: 20px;" onclick="openSearchForm()">查詢</button>
+    </div>
+    <div name="data" style="position: absolute; margin-top: 2%; margin-left: 19.5%; width: 60%; height: 500px; background-color: antiquewhite; border-color: black; border: 2px solid #000000;">
+    </div>
+
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span onclick="closeAddForm()" style="cursor: pointer;">取消</span>
+            <form id="addForm">
+                <input type="text" class="form-input" id="idInput" placeholder="编号">
+                <input type="text" class="form-input" id="nameInput" placeholder="姓名">
+                <input type="text" class="form-input" id="birthdayInput" placeholder="生日">
+                <input type="text" class="form-input" id="phoneInput" placeholder="电话">
+                <button type="button" onclick="submitForm()">提交</button>
+            </form>
         </div>
-        <div style="position: absolute;
-        margin-top: 2%;margin-left: 19.5%; width: 60%;height: 500px; background-color: antiquewhite;">
-            
-        </div>
-    </body>
+    </div>
+
+    <script>
+        function openAddForm() {
+            var addModal = document.getElementById("addModal");
+            addModal.style.display = "block";
+        }
+
+        function closeAddForm() {
+            var addModal = document.getElementById("addModal");
+            addModal.style.display = "none";
+        }
+
+        function submitForm() {
+            // 在这里执行提交表单的操作，可以获取表单数据并进行后续处理
+            var id = document.getElementById("idInput").value;
+            var name = document.getElementById("nameInput").value;
+            var birthday = document.getElementById("birthdayInput").value;
+            var phone = document.getElementById("phoneInput").value;
+            // 可以将数据发送到后台或进行其他操作
+            // 清空表单
+            document.getElementById("addForm").reset();
+            closeAddForm(); // 提交完成后关闭表单
+        }
+
+        function openSearchForm() {
+            // 打开搜索表单的逻辑，你可以在这里添加搜索功能
+            alert("打开搜索表单");
+        }
+    </script>
+</body>
 </html>
