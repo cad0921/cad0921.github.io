@@ -69,13 +69,12 @@
         // 获取要显示数据的表格
         var dataTable = document.getElementById("data-table");
 
-        // 使用fetch从数据库获取数据
-        fetch("/get-data") // 替换为你的后端API路由
+        fetch("/get-data") 
             .then(function (response) {
                 return response.json();
             })
             .then(function (data) {
-                // data是从数据库获取的数据数组
+               
                 data.forEach(function (row) {
                     var newRow = dataTable.insertRow();
                     var idCell = newRow.insertCell(0);
@@ -104,9 +103,30 @@
             var name = document.getElementById("nameInput").value;
             var birthday = document.getElementById("birthdayInput").value;
             var phone = document.getElementById("phoneInput").value;
-            document.getElementById("addForm").reset();
-            closeAddForm(); 
+            
+            var formData = {
+                "id": id,
+                "name": name,
+                "birthday": birthday,
+                "phone": phone
+            };
+            
+            fetch("/add-data", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(function(response) {
+                if (response.status === 200) {
+
+                    document.getElementById("addForm").reset();
+                    closeAddForm();
+                }
+            });
         }
+
         function openModal() {
             var modal = document.getElementById("myModal");
             modal.style.display = "block";
@@ -119,7 +139,7 @@
 
         function performSearch() {
             var searchInput = document.getElementById("searchInput").value;
-            // 在这里执行搜索操作，可以将搜索词传递到后台或执行其他搜索逻辑
+            
             closeModal();
         }
 
