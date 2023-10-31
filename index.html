@@ -35,6 +35,14 @@
         <button name="Search" style="width: 30%; height: 50px; background-color: bisque; font-family: DFKai-sb; font-size: 20px;" onclick="openModal()">查詢</button>
     </div>
     <div name="data" style="position: absolute; margin-top: 2%; margin-left: 19.5%; width: 60%; height: 500px; background-color: antiquewhite; border-color: black; border: 2px solid #000000;">
+        <table id="data-table">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Birthday</th>
+                <th>Phone</th>
+            </tr>
+        </table>
     </div>
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -51,13 +59,36 @@
                 <input type="text" class="form-input" id="nameInput" placeholder="姓名">
                 <input type="text" class="form-input" id="birthdayInput" placeholder="生日">
                 <input type="text" class="form-input" id="phoneInput" placeholder="電話">
-                <button type="button" onclick="submitForm()">提交</button>
+                <button type="button" onclick="submitForm()">提交</button> 
             </form>
         </div>
         
     </div>
 
     <script>
+        // 获取要显示数据的表格
+        var dataTable = document.getElementById("data-table");
+
+        // 使用fetch从数据库获取数据
+        fetch("/get-data") // 替换为你的后端API路由
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                // data是从数据库获取的数据数组
+                data.forEach(function (row) {
+                    var newRow = dataTable.insertRow();
+                    var idCell = newRow.insertCell(0);
+                    var nameCell = newRow.insertCell(1);
+                    var birthdayCell = newRow.insertCell(2);
+                    var phoneCell = newRow.insertCell(3);
+
+                    idCell.innerHTML = row.ID;
+                    nameCell.innerHTML = row.Name;
+                    birthdayCell.innerHTML = row.Birthday;
+                    phoneCell.innerHTML = row.Phone;
+                });
+            });
         function openAddForm() {
             var addModal = document.getElementById("addModal");
             addModal.style.display = "block";
@@ -73,9 +104,8 @@
             var name = document.getElementById("nameInput").value;
             var birthday = document.getElementById("birthdayInput").value;
             var phone = document.getElementById("phoneInput").value;
-            // 可以将数据发送到后台或进行其他操作
             document.getElementById("addForm").reset();
-            closeAddForm(); // 
+            closeAddForm(); 
         }
         function openModal() {
             var modal = document.getElementById("myModal");
